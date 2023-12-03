@@ -4,7 +4,7 @@ import { getClient } from './github/client'
 import { getPullRequestStats } from './github/pulls'
 import { nonNullable } from './utils'
 
-type RunOptions = {
+export type RunOptions = {
   owner: string
   repo: string
   /** destination of CSV. when it is empty, write to STDOUT */
