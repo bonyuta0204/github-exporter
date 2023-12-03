@@ -1,5 +1,6 @@
-import { createObjectCsvWriter } from 'csv-writer'
+import { createObjectCsvStringifier } from 'csv-writer'
 import { nonNullable } from '../utils'
+import { writeFile } from 'fs/promises'
 
 export type PullRequestInfo = {
   id: string
@@ -22,11 +23,10 @@ export type PullRequestInfo = {
  * @param {PullRequestInfo[]} pulls - Pull requests to export
  */
 export async function exportPullRequests(
-  path: string,
-  pulls: PullRequestInfo[]
+  pulls: PullRequestInfo[],
+  path?: string
 ) {
-  const csvWriter = createObjectCsvWriter({
-    path: path,
+  const csvStringifier = createObjectCsvStringifier({
     header: [
       { id: 'id', title: 'ID' },
       { id: 'authorName', title: 'Author Name' },
@@ -42,6 +42,15 @@ export async function exportPullRequests(
     ]
   })
 
-  await csvWriter.writeRecords(pulls.filter(nonNullable))
+  const csvString =
+    csvStringifier.getHeaderString() +
+    csvStringifier.stringifyRecords(pulls.filter(nonNullable))
+
+  /** write CSV string to destination path */
+  if (path) {
+    await writeFile(path, csvString)
+  } else {
+    process.stdout.write(csvString)
+  }
   console.log('CSV file was written successfully')
 }

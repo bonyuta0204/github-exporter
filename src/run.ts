@@ -4,19 +4,21 @@ import { getClient } from './github/client'
 import { getPullRequestStats } from './github/pulls'
 import { nonNullable } from './utils'
 
-export async function run() {
+type RunOptions = {
+  owner: string
+  repo: string
+  /** destination of CSV. when it is empty, write to STDOUT */
+  path?: string
+}
+
+export async function run(options: RunOptions) {
   const client = getClient()
 
-  const pulls = await getPullRequestStats(
-    client,
-    'bonyuta0204',
-    'github-exporter'
-  )
+  const pulls = await getPullRequestStats(client, options.owner, options.repo)
 
   if (!pulls) return
 
   exportPullRequests(
-    'dist/output.csv',
     pulls.filter(nonNullable).map((pull) => {
       return {
         id: pull.id,
@@ -31,6 +33,7 @@ export async function run() {
         additions: pull.additions,
         deletions: pull.deletions
       }
-    })
+    }),
+    options.path
   )
 }
