@@ -3,9 +3,13 @@ import { type ApolloClient, type NormalizedCacheObject } from '@apollo/client'
 import { gql } from '../types/__generated__/gql'
 
 const GET_PULL_REQUESTS = gql(/* GraphQL */ `
-  query GetPullRequestStats($repoName: String!, $repoOwner: String!) {
+  query GetPullRequestStats(
+    $repoName: String!
+    $repoOwner: String!
+    $limit: Int!
+  ) {
     repository(name: $repoName, owner: $repoOwner) {
-      pullRequests(last: 100) {
+      pullRequests(last: $limit) {
         totalCount
         nodes {
           id
@@ -31,13 +35,15 @@ const GET_PULL_REQUESTS = gql(/* GraphQL */ `
 export async function getPullRequestStats(
   client: ApolloClient<NormalizedCacheObject>,
   repoOwner: string,
-  repoName: string
+  repoName: string,
+  limit?: number
 ) {
   const response = await client.query({
     query: GET_PULL_REQUESTS,
     variables: {
       repoName: repoName,
-      repoOwner: repoOwner
+      repoOwner: repoOwner,
+      limit: limit ?? 100
     }
   })
 

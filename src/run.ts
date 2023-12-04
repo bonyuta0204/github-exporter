@@ -14,7 +14,12 @@ export type RunOptions = {
 export async function run(options: RunOptions) {
   const client = getClient()
 
-  const pulls = await getPullRequestStats(client, options.owner, options.repo)
+  const pulls = await getPullRequestStats(
+    client,
+    options.owner,
+    options.repo,
+    100
+  )
 
   if (!pulls) return
 
