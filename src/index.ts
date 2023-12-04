@@ -1,25 +1,6 @@
-import { run, RunOptions } from './run'
-import minimist, { ParsedArgs } from 'minimist'
+import { parseArgv } from './cli'
+import { run } from './run'
 
-const argv = minimist(process.argv.slice(2))
-
-function parseArgv(argv: ParsedArgs): RunOptions {
-  const repo = argv.repo
-  if (!repo) {
-    throw new Error('repo is required')
-  }
-
-  const splitted = repo.split('/')
-
-  if (!splitted || splitted.length !== 2) {
-    throw new Error('repo must be in the format of owner/repo')
-  }
-
-  return {
-    owner: splitted[0],
-    repo: splitted[1],
-    path: argv.dist
-  }
-}
-
-run(parseArgv(argv))
+const options = parseArgv(process.argv.slice(2))
+if (!options) process.exit(1)
+run(options)
