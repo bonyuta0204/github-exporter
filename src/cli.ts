@@ -22,7 +22,6 @@ export function parseArgv(argv: string[]): RunOptions | undefined {
 
   const args = minimist(argv)
 
-  console.log(args)
   const repo = args.repo
 
   if (!repo) {
