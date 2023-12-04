@@ -1,6 +1,7 @@
 {
   "name": "github-exporter",
   "type": "module",
+  "private": true,
   "version": "0.0.1",
   "description": "GitHub Exporter written in typescript",
   "main": "./dist/index.cjs",
@@ -18,8 +19,8 @@
   },
   "lint-staged": {
     "src/**/*.{ts,js}": [
-      "pnpm run format:write",
-      "pnpm run lint:fix"
+      "prettier --write **/*.ts",
+      "eslint . --fix"
     ]
   },
   "exports": {
@@ -50,7 +51,8 @@
   },
   "homepage": "https://github.com/bonyuta0204/github-exporter#readme",
   "volta": {
-    "node": "20.10.0"
+    "node": "20.10.0",
+    "yarn": "1.22.21"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
@@ -61,7 +63,6 @@
     "@types/node": "^20.10.2",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
-    "csv-writer": "^1.6.0",
     "eslint": "^8.55.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.1.0",
@@ -73,6 +74,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.8",
+    "csv-writer": "^1.6.0",
     "google-spreadsheet": "^4.1.1",
     "graphql": "^16.8.1",
     "minimist": "^1.2.8",

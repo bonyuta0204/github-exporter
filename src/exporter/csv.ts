@@ -1,3 +1,4 @@
+import type {} from 'csv-writer'
 import { createObjectCsvStringifier } from 'csv-writer'
 import { nonNullable } from '../utils'
 import { writeFile } from 'fs/promises'
