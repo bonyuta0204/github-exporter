@@ -18,7 +18,7 @@ export async function run(options: RunOptions) {
     client,
     options.owner,
     options.repo,
-    100
+    undefined
   )
 
   if (!pulls) return

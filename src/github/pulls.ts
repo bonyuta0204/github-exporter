@@ -1,31 +1,39 @@
 import { type ApolloClient, type NormalizedCacheObject } from '@apollo/client'
 
 import { gql } from '../types/__generated__/gql'
+import { buildPagingFunc } from './pagination'
 
 const GET_PULL_REQUESTS = gql(/* GraphQL */ `
   query GetPullRequestStats(
     $repoName: String!
     $repoOwner: String!
     $limit: Int!
+    $cursor: String
   ) {
     repository(name: $repoName, owner: $repoOwner) {
-      pullRequests(last: $limit) {
+      pullRequests(last: $limit, before: $cursor) {
         totalCount
-        nodes {
-          id
-          author {
-            login
+        edges {
+          node {
+            id
+            author {
+              login
+            }
+            number
+            closed
+            title
+            changedFiles
+            createdAt
+            merged
+            mergedAt
+            state
+            additions
+            deletions
           }
-          number
-          closed
-          title
-          changedFiles
-          createdAt
-          merged
-          mergedAt
-          state
-          additions
-          deletions
+        }
+        pageInfo {
+          hasPreviousPage
+          startCursor
         }
       }
     }
@@ -38,14 +46,30 @@ export async function getPullRequestStats(
   repoName: string,
   limit?: number
 ) {
-  const response = await client.query({
-    query: GET_PULL_REQUESTS,
-    variables: {
-      repoName: repoName,
-      repoOwner: repoOwner,
-      limit: limit ?? 100
+  const pagingFetch = buildPagingFunc(async (limit, cursor) => {
+    const response = await client.query({
+      query: GET_PULL_REQUESTS,
+      variables: {
+        repoOwner,
+        repoName,
+        limit: limit,
+        cursor
+      }
+    })
+
+    return {
+      items:
+        response.data.repository?.pullRequests.edges?.map(
+          (edge) => edge?.node
+        ) ?? [],
+      cursor:
+        response.data.repository?.pullRequests.pageInfo.startCursor ??
+        undefined,
+      hasNext:
+        response.data.repository?.pullRequests.pageInfo.hasPreviousPage ?? false
     }
   })
 
-  return response.data.repository?.pullRequests.nodes
+  const pulls = await pagingFetch([], true, undefined, limit)
+  return pulls.items
 }
