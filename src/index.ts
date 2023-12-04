@@ -1,4 +1,6 @@
 import { parseArgv } from './cli'
-import { run, RunOptions } from './run'
+import { run } from './run'
 
-run(parseArgv(process.argv.slice(2)))
+const options = parseArgv(process.argv.slice(2))
+if (!options) process.exit(1)
+run(options)
