@@ -1,4 +1,5 @@
 import { exportPullRequests } from './exporter/csv'
+import minimist, { ParsedArgs } from 'minimist'
 import { getClient } from './github/client'
 
 import { getPullRequestStats } from './github/pulls'
