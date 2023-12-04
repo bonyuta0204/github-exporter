@@ -30,7 +30,7 @@
   },
   "types": "./dist/index.d.ts",
   "bin": {
-    "ghex": "./bin/index.mjs"
+    "ghex": "bin/index.mjs"
   },
   "files": [
     "dist",
