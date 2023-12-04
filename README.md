@@ -19,6 +19,17 @@ cd github-exporter
 npm install
 ```
 
+## Environment Setup
+
+To use GitHub Exporter, you must set the GITHUB_TOKEN environment variable with your GitHub personal access token. This token is used to authenticate with the GitHub API.
+
+You can set the GITHUB_TOKEN by running:
+```sh
+export GITHUB_TOKEN='your_github_token_here'
+```
+Replace your_github_token_here with your actual GitHub personal access token.
+
+
 ## Usage
 To use GitHub Exporter, run the command-line interface with the required arguments:
 
