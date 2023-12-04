@@ -1,7 +1,6 @@
 {
   "name": "github-exporter",
   "type": "module",
-  "private": true,
   "version": "0.0.1",
   "description": "GitHub Exporter written in typescript",
   "main": "./dist/index.cjs",
