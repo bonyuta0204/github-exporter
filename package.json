@@ -1,5 +1,5 @@
 {
-  "name": "github-exporter",
+  "name": "@bonyuta0204/github-exporter",
   "type": "module",
   "version": "0.0.1",
   "description": "GitHub Exporter written in typescript",
