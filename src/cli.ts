@@ -6,11 +6,12 @@ export function generateHelpMessage() {
   Usage: [command] --repo <owner/repo> [--dist <path>]
 
   Arguments:
-    --repo  Repository in the format of 'owner/repo'.
-    --dist  Distribution path (optional).
+    --repo   Repository in the format of 'owner/repo'.
+    --dist   Distribution path (optional).
+    --limit  Limit numberfor result (optional).
 
   Example:
-    command --repo owner/repo --dist path/to/dist
+    command --repo owner/repo --dist path/to/dist --limit 100
   `
 }
 
@@ -38,9 +39,18 @@ export function parseArgv(argv: string[]): RunOptions | undefined {
     return
   }
 
+  const limit = args.limit
+
+  if (limit && isNaN(limit)) {
+    console.error('Error: limit must be a valid number')
+    console.log(generateHelpMessage())
+    return
+  }
+
   return {
     owner: splitted[0],
     repo: splitted[1],
-    path: args.dist
+    path: args.dist,
+    limit: limit ? parseInt(limit) : undefined
   }
 }

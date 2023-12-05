@@ -52,7 +52,7 @@ export async function getPullRequestStats(
       variables: {
         repoOwner,
         repoName,
-        limit: limit,
+        limit,
         cursor
       }
     })
