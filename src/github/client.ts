@@ -1,4 +1,4 @@
-import apollo from '@apollo/client'
+import { ApolloClient, InMemoryCache } from '@apollo/client/index.js'
 
 /**
  * Returns an Apollo Client instance configured with the provided Github token.
@@ -12,9 +12,9 @@ export const getClient = () => {
     throw new Error('Please add your Github token to .env.local')
   }
 
-  const client = new apollo.ApolloClient({
+  const client = new ApolloClient({
     uri: 'https://api.github.com/graphql',
-    cache: new apollo.InMemoryCache(),
+    cache: new InMemoryCache(),
     headers: {
       authorization: `Bearer ${token}`
     }
