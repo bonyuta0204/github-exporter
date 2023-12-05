@@ -1,7 +1,7 @@
 import { type ApolloClient, type NormalizedCacheObject } from '@apollo/client'
 
 import { gql } from '../types/__generated__/gql'
-import { buildPagingFunc } from './pagination'
+import { buildPagingFunc, logProgress } from './pagination'
 
 const GET_PULL_REQUESTS = gql(/* GraphQL */ `
   query GetPullRequestStats(
@@ -66,10 +66,12 @@ export async function getPullRequestStats(
         response.data.repository?.pullRequests.pageInfo.startCursor ??
         undefined,
       hasNext:
-        response.data.repository?.pullRequests.pageInfo.hasPreviousPage ?? false
+        response.data.repository?.pullRequests.pageInfo.hasPreviousPage ??
+        false,
+      totalCount: response.data.repository?.pullRequests.totalCount
     }
   })
 
-  const pulls = await pagingFetch([], true, undefined, limit)
+  const pulls = await pagingFetch([], true, undefined, limit, logProgress)
   return pulls.items
 }

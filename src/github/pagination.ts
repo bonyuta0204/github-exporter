@@ -2,7 +2,8 @@ type PagingFunction<TItem> = (
   items: TItem[],
   hasNextPage: boolean,
   cursor?: string,
-  remainingCount?: number
+  remainingCount?: number,
+  cb?: PagingCallBack
 ) => Promise<{
   items: TItem[]
   cursor?: string
@@ -10,10 +11,20 @@ type PagingFunction<TItem> = (
   hasNextPage: boolean
 }>
 
+type PagingCallBack = <T>(param: {
+  totalCount?: number
+  currentCount: number
+}) => T
+
 type CursorRequest<TItem> = (
   limit: number,
   cursor?: string
-) => Promise<{ items: TItem[]; cursor?: string; hasNext: boolean }>
+) => Promise<{
+  items: TItem[]
+  cursor?: string
+  hasNext: boolean
+  totalCount?: number
+}>
 
 type BuildPagingFunc = <TItem>(
   fn: CursorRequest<TItem>
@@ -31,7 +42,7 @@ const DEFAULT_LIMIT = 100
 export const buildPagingFunc: BuildPagingFunc = (fn) => {
   const pagingFetch: PagingFunction<
     Awaited<ReturnType<typeof fn>>['items'][number]
-  > = async (items, hasNextPage, cursor, remainingCount) => {
+  > = async (items, hasNextPage, cursor, remainingCount, cb) => {
     if (!hasNextPage || (remainingCount !== undefined && remainingCount <= 0)) {
       return Promise.resolve({
         items,
@@ -48,13 +59,50 @@ export const buildPagingFunc: BuildPagingFunc = (fn) => {
 
     const response = await fn(limit, cursor)
 
+    const newItems = [...items, ...response.items]
+
+    if (cb) {
+      let totalCount: number | undefined = undefined
+      if (typeof remainingCount === 'number') {
+        /** limitCount is number of items user wants to fetch */
+        const limitCount = remainingCount + items.length
+
+        /** response.totalCount is actual number of all items */
+        if (typeof response.totalCount === 'number') {
+          /** we want to smaller one becase actual number of items is the smaller one */
+          totalCount = Math.min(limitCount, response.totalCount)
+        } else {
+          totalCount = limitCount
+        }
+      } else if (typeof response.totalCount === 'number') {
+        totalCount = response.totalCount
+      }
+
+      cb({ totalCount: totalCount, currentCount: newItems.length })
+    }
+
     return pagingFetch(
       [...items, ...response.items],
       response.hasNext,
       response.cursor,
-      remainingCount && remainingCount - response.items.length
+      remainingCount && remainingCount - response.items.length,
+      cb
     )
   }
 
   return pagingFetch
+}
+
+export function logProgress({
+  totalCount,
+  currentCount
+}: {
+  totalCount?: number
+  currentCount: number
+}) {
+  if (totalCount) {
+    console.log(`${currentCount} / ${totalCount}`)
+  } else {
+    console.log(currentCount)
+  }
 }
