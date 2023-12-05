@@ -43,13 +43,45 @@ describe('parseArgv', () => {
     expect(result).toBeUndefined()
   })
 
-  // Additional valid case test
   it('should return correct RunOptions for valid arguments', () => {
+    const argv = [
+      '--repo',
+      'owner/repo',
+      '--dist',
+      'path/to/dist',
+      '--limit',
+      '10'
+    ]
+    expect(parseArgv(argv)).toEqual({
+      owner: 'owner',
+      repo: 'repo',
+      path: 'path/to/dist',
+      limit: 10
+    })
+  })
+
+  it('should raise error when limit is not a valid number', () => {
+    const result = parseArgv([
+      '--repo',
+      'owner/repo',
+      '--dist',
+      'path/to/dist',
+      '--limit',
+      '1AA'
+    ])
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Error: limit must be a valid number'
+    )
+    expect(result).toBeUndefined()
+  })
+
+  it('should return correct RunOptions without limit', () => {
     const argv = ['--repo', 'owner/repo', '--dist', 'path/to/dist']
     expect(parseArgv(argv)).toEqual({
       owner: 'owner',
       repo: 'repo',
-      path: 'path/to/dist'
+      path: 'path/to/dist',
+      limit: undefined
     })
   })
 })

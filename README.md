@@ -14,9 +14,7 @@ Before installing GitHub Exporter, ensure you have Node.js installed on your sys
 To install GitHub Exporter, clone the repository and install its dependencies:
 
 ```bash
-git clone https://github.com/bonyuta0204/github-exporter.git
-cd github-exporter
-npm install
+npm install -g @bonyuta0204/github-exporter
 ```
 
 ## Environment Setup
@@ -34,26 +32,13 @@ Replace your_github_token_here with your actual GitHub personal access token.
 To use GitHub Exporter, run the command-line interface with the required arguments:
 
 ```bash
-ghex --repo <owner/repo> [--dist <path>]
+ghex --repo <owner/repo> [--dist <path>] [--limit <number>]
 ```
 
 - `--repo`: The GitHub repository in the format `owner/repo`.
 - `--dist`: (Optional) The destination path for the exported CSV. If not specified, the output will be written to STDOUT.
+- `--limit`: (Optional) The number of pull requests to export. If not specified, all pull requests will be exported.
 
-## Development
-For developers looking to contribute or customize:
-
-- **Build**: `npm run build`
-- **Linting**: `npm run lint`
-- **Formatting**: `npm run format:write`
-
-## Dependencies
-GitHub Exporter utilizes several key dependencies:
-- Apollo Client
-- Google Spreadsheet
-- GraphQL
-- Minimist
-- React
 
 ## Contributing
 Contributions are welcome. Please feel free to fork the repository, make changes, and submit pull requests.
@@ -65,5 +50,5 @@ This project is licensed under the MIT License.
 For any bugs or feature requests, please open an issue on the [GitHub issues page](https://github.com/bonyuta0204/github-exporter/issues).
 
 ## Author
-Yuta Nakamura
+Yuta Nakamura (nakamurayuta0204@gmail.com)
 

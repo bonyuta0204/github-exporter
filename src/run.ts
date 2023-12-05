@@ -9,6 +9,7 @@ export type RunOptions = {
   repo: string
   /** destination of CSV. when it is empty, write to STDOUT */
   path?: string
+  limit?: number
 }
 
 export async function run(options: RunOptions) {
@@ -18,7 +19,7 @@ export async function run(options: RunOptions) {
     client,
     options.owner,
     options.repo,
-    undefined
+    options.limit
   )
 
   if (!pulls) return
