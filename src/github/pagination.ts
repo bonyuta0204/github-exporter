@@ -3,7 +3,7 @@ type PagingFunction<TItem> = (
   hasNextPage: boolean,
   cursor?: string,
   remainingCount?: number,
-  cb?: PagingCallBack
+  cb?: ProgressCallBack
 ) => Promise<{
   items: TItem[]
   cursor?: string
@@ -11,10 +11,10 @@ type PagingFunction<TItem> = (
   hasNextPage: boolean
 }>
 
-type PagingCallBack = <T>(param: {
+type ProgressCallBack = (param: {
   totalCount?: number
   currentCount: number
-}) => T
+}) => void
 
 type CursorRequest<TItem> = (
   limit: number,
@@ -93,16 +93,11 @@ export const buildPagingFunc: BuildPagingFunc = (fn) => {
   return pagingFetch
 }
 
-export function logProgress({
-  totalCount,
-  currentCount
-}: {
-  totalCount?: number
-  currentCount: number
-}) {
+export const logProgress: ProgressCallBack = ({ totalCount, currentCount }) => {
   if (totalCount) {
-    console.log(`${currentCount} / ${totalCount}`)
+    process.stdout.write(`Progress: ${currentCount}/${totalCount}\n`)
   } else {
     console.log(currentCount)
+    process.stdout.write(`Progress: ${currentCount}\n`)
   }
 }
