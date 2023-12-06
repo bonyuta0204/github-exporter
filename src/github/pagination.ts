@@ -16,7 +16,7 @@ type ProgressCallBack = (param: {
   currentCount: number
 }) => void
 
-type CursorRequest<TItem> = (
+export type CursorRequest<TItem> = (
   limit: number,
   cursor?: string
 ) => Promise<{
