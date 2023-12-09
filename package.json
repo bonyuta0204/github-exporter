@@ -1,7 +1,7 @@
 {
   "name": "@bonyuta0204/github-exporter",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "GitHub Exporter written in typescript",
   "main": "./dist/index.cjs",
   "scripts": {
@@ -14,6 +14,7 @@
     "compile": "graphql-codegen",
     "watch": "graphql-codegen -w",
     "test": "vitest",
+    "publish": "bumpp",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -62,6 +63,7 @@
     "@types/node": "^20.10.2",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
+    "bumpp": "^9.2.0",
     "eslint": "^8.55.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.1.0",
