@@ -1,5 +1,6 @@
 import { exportPullRequests } from './exporter/csv'
 import { getClient } from './github/client'
+import { logProgress } from './github/pagination'
 
 import { getPullRequestStats } from './github/pulls'
 import { nonNullable } from './utils'
@@ -19,7 +20,8 @@ export async function run(options: RunOptions) {
     client,
     options.owner,
     options.repo,
-    options.limit
+    options.limit,
+    logProgress
   )
 
   if (!pulls) return

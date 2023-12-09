@@ -2,6 +2,7 @@ import type {} from 'csv-writer'
 import { createObjectCsvStringifier } from 'csv-writer'
 import { nonNullable } from '../utils'
 import { writeFile } from 'fs/promises'
+import { logger } from '../logger'
 
 export type PullRequestInfo = {
   id: string
@@ -53,5 +54,5 @@ export async function exportPullRequests(
   } else {
     process.stdout.write(csvString)
   }
-  console.log('CSV file was written successfully')
+  logger.log('CSV file was written successfully')
 }
