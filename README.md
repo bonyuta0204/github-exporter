@@ -1,4 +1,9 @@
 # GitHub Exporter
+![npm](https://img.shields.io/npm/v/%40bonyuta0204%2Fgithub-exporter)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Test](https://github.com/bonyuta0204/github-exporter/actions/workflows/test.yml/badge.svg)](https://github.com/bonyuta0204/github-exporter/actions/workflows/test.yml)
+
+
 
 ## Introduction
 GitHub Exporter is a command-line tool written in TypeScript, designed to export GitHub repository information into a CSV format. It allows users to extract detailed data about pull requests, including author details, pull request numbers, status, and more.
