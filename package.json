@@ -5,6 +5,7 @@
   "description": "GitHub Exporter written in typescript",
   "main": "./dist/index.cjs",
   "scripts": {
+    "prepublishOnly": "pnpm run build",
     "format:write": "prettier --write **/*.ts",
     "format:check": "prettier --check **/*.ts",
     "lint": "eslint .",
@@ -14,7 +15,7 @@
     "compile": "graphql-codegen",
     "watch": "graphql-codegen -w",
     "test": "vitest",
-    "publish": "bumpp",
+    "publish": "bumpp && pnpm publish --access=public",
     "prepare": "husky install"
   },
   "lint-staged": {
