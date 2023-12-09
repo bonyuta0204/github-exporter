@@ -11,6 +11,7 @@ const GET_PULL_REQUESTS = gql(/* GraphQL */ `
     $cursor: String
   ) {
     repository(name: $repoName, owner: $repoOwner) {
+      id
       pullRequests(last: $limit, before: $cursor) {
         totalCount
         edges {
