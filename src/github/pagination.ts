@@ -1,3 +1,5 @@
+import { logger } from '../logger'
+
 type PagingFunction<TItem> = (
   items: TItem[],
   hasNextPage: boolean,
@@ -11,7 +13,7 @@ type PagingFunction<TItem> = (
   hasNextPage: boolean
 }>
 
-type ProgressCallBack = (param: {
+export type ProgressCallBack = (param: {
   totalCount?: number
   currentCount: number
 }) => void
@@ -95,9 +97,9 @@ export const buildPagingFunc: BuildPagingFunc = (fn) => {
 
 export const logProgress: ProgressCallBack = ({ totalCount, currentCount }) => {
   if (totalCount) {
-    process.stdout.write(`Progress: ${currentCount}/${totalCount}\n`)
+    logger.log(`Progress: ${currentCount}/${totalCount}\n`)
   } else {
     console.log(currentCount)
-    process.stdout.write(`Progress: ${currentCount}\n`)
+    logger.log(`Progress: ${currentCount}\n`)
   }
 }
