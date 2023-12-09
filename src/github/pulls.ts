@@ -12,7 +12,11 @@ const GET_PULL_REQUESTS = gql(/* GraphQL */ `
   ) {
     repository(name: $repoName, owner: $repoOwner) {
       id
-      pullRequests(last: $limit, before: $cursor) {
+      pullRequests(
+        first: $limit
+        after: $cursor
+        orderBy: { field: CREATED_AT, direction: DESC }
+      ) {
         totalCount
         edges {
           node {
@@ -33,8 +37,8 @@ const GET_PULL_REQUESTS = gql(/* GraphQL */ `
           }
         }
         pageInfo {
-          hasPreviousPage
-          startCursor
+          hasNextPage
+          endCursor
         }
       }
     }
@@ -65,11 +69,9 @@ export async function getPullRequestStats(
           (edge) => edge?.node
         ) ?? [],
       cursor:
-        response.data.repository?.pullRequests.pageInfo.startCursor ??
-        undefined,
+        response.data.repository?.pullRequests.pageInfo.endCursor ?? undefined,
       hasNext:
-        response.data.repository?.pullRequests.pageInfo.hasPreviousPage ??
-        false,
+        response.data.repository?.pullRequests.pageInfo.hasNextPage ?? false,
       totalCount: response.data.repository?.pullRequests.totalCount
     }
   })
