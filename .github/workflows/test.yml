@@ -32,5 +32,8 @@ jobs:
       - name: Install deps
         run: yarn install
 
+      - name: Run Codegen for GraphQL
+        run: yarn run compile
+
       - name: Test
         run: yarn test
