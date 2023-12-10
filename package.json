@@ -1,7 +1,7 @@
 {
   "name": "@bonyuta0204/github-exporter",
   "type": "module",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "GitHub Exporter written in typescript",
   "main": "./dist/index.cjs",
   "scripts": {
