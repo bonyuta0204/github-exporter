@@ -1,6 +1,6 @@
 import { run } from '../src/run'
 
-import { vi, describe, beforeEach, afterEach, it, expect } from 'vitest'
+import { vi, describe, it, expect } from 'vitest'
 
 describe('run', () => {
   vi.mock('@apollo/client/index.js', () => {
@@ -40,15 +40,16 @@ describe('run', () => {
     }
   })
 
-  it('should run', () => {
+  vi.stubEnv('GITHUB_TOKEN', 'dummy-token')
+
+  it('should run', async () => {
     /** we just want to ensure that `run` does not throw any errors */
-    expect(() =>
-      run({
+    expect(
+      await run({
         owner: 'owner',
         repo: 'repo',
-        path: 'path',
         limit: 100
       })
-    ).not.toThrow()
+    ).toBeUndefined()
   })
 })
