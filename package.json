@@ -15,7 +15,7 @@
     "compile": "graphql-codegen",
     "watch": "graphql-codegen -w",
     "test": "vitest",
-    "publish": "bumpp && yarn publish --access=public",
+    "publish": "bumpp && npm publish --access=public",
     "prepare": "husky install"
   },
   "lint-staged": {
