@@ -5,7 +5,7 @@
   "description": "GitHub Exporter written in typescript",
   "main": "./dist/index.cjs",
   "scripts": {
-    "prepublishOnly": "pnpm run build",
+    "prepublishOnly": "yarn run build",
     "format:write": "prettier --write **/*.ts",
     "format:check": "prettier --check **/*.ts",
     "lint": "eslint .",
@@ -15,7 +15,7 @@
     "compile": "graphql-codegen",
     "watch": "graphql-codegen -w",
     "test": "vitest",
-    "publish": "bumpp && pnpm publish --access=public",
+    "publish": "bumpp && yarn publish --access=public",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -64,6 +64,8 @@
     "@types/node": "^20.10.2",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
+    "@vitest/coverage-v8": "^1.0.2",
+    "@vitest/ui": "^1.0.2",
     "bumpp": "^9.2.0",
     "eslint": "^8.55.0",
     "husky": "^8.0.3",
