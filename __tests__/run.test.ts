@@ -1,9 +1,7 @@
 import { run } from '../src/run'
 
-import { vi, describe, it, expect } from 'vitest'
-
 describe('run', () => {
-  vi.mock('@apollo/client/index.js', () => {
+  jest.mock('@apollo/client/index.js', () => {
     class InMemoryCache {
       constructor() {}
     }
@@ -39,8 +37,6 @@ describe('run', () => {
       InMemoryCache: InMemoryCache
     }
   })
-
-  vi.stubEnv('GITHUB_TOKEN', 'dummy-token')
 
   it('should run', async () => {
     /** we just want to ensure that `run` does not throw any errors */

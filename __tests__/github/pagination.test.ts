@@ -1,8 +1,6 @@
 import { beforeEach } from 'node:test'
 import { buildPagingFunc, CursorRequest } from '../../src/github/pagination'
 
-import { describe, vi, it, expect } from 'vitest'
-
 describe('buildPagingFunc', () => {
   const createMockCursorRequest = (
     itemCount: number
@@ -10,7 +8,7 @@ describe('buildPagingFunc', () => {
     const items = Array.from({ length: itemCount }, (_, index) => ({
       id: index
     }))
-    return vi.fn(async (limit: number, cursor?: string) => {
+    return jest.fn(async (limit: number, cursor?: string) => {
       const start = cursor ? parseInt(cursor, 10) : 0
       const end = start + limit
       const paginatedItems = items.slice(start, end)
@@ -23,7 +21,7 @@ describe('buildPagingFunc', () => {
     })
   }
 
-  const mockProgressFunc = vi.fn()
+  const mockProgressFunc = jest.fn()
 
   beforeEach(() => {
     mockProgressFunc.mockClear()

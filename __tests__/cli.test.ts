@@ -1,14 +1,12 @@
 import { parseArgv, generateHelpMessage } from '../src/cli'
 
-import { vi, describe, beforeEach, afterEach, it, expect } from 'vitest'
-
 describe('parseArgv', () => {
   let consoleLogSpy
   let consoleErrorSpy
 
   beforeEach(() => {
-    consoleLogSpy = vi.spyOn(console, 'log')
-    consoleErrorSpy = vi.spyOn(console, 'error')
+    consoleLogSpy = spyOn(console, 'log')
+    consoleErrorSpy = spyOn(console, 'error')
   })
 
   afterEach(() => {
